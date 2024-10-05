@@ -72,6 +72,51 @@ for(i in 8:nrow(jan22)){
 
 jan22$rollAveTemp <- rollAveTemp
 
+#prompt 2: You want to see if the solar radiation measurements experienced any 
+#issues with build up or accumulation on the sensor in May and June of 2021. 
+#Make an assessment with your group.
+
+mayjune21 <- weather %>%
+  filter(month==5 & year==2021 | month==6 & year==2021) 
+
+ggplot(data=mayjune21, aes(x=dateF, y=SolRad))+
+         geom_col(color="royalblue4")+
+         theme_classic()
+#though there are a few days where the solar radiation is very low, it 
+#doesn't seem to be a consistent problem.
+
+#prompt 3: Check for any date time issues using the function created in the
+#tutorial. Investigate instances of date time issues. What happens around 
+#daylight savings? Are there issues with the time zone assumption?
+
+
+#check intervals
+int_length(weather$dateF[1] %--% weather$dateF[2])
+
+interval_times <- int_length(interval)
+
+interval[interval_times !=900]
+
+#daylight savings: second sunday in march, first sunday in november: this is 
+#where the interval problems start and end
+
+#create function for checking irregular intervals that deviate from 900 seconds
+
+timecheck900 <- function(x){
+  intervals <- x[-length(x)] %--% x[-1]
+  interval_times <- int_length(intervals)
+  intervals[interval_times !=900]
+}
+
+timecheck900(weather$dateF)
+
+#time zone is assumed to be UTC which is not correct
+
+#Homework 4
+
+#Question 1: 
+
+
 
 
 
